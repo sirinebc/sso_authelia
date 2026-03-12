@@ -1,0 +1,20 @@
+# certs
+certs/
+
+# données authelia runtime
+authelia/db.sqlite3
+authelia/notification.txt
+
+# secrets
+*.env
+.env*
+secrets/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editeurs
+.vscode/
+.idea/
+*.swp
