@@ -1,0 +1,21 @@
+services: 
+
+  reverse-proxy :
+    image : nginx:alpine
+    ports: # exposer le port 443 https car nginx doit recevoir le traffic externe (depuis l'host)
+      - "443:443" 
+    volumes: # mapper les fichiers conf local -> conteneur
+      - ./nginx:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+    networks: 
+      - int
+
+  authelia:
+    image : authelia/authelia
+    volumes: # authelia a besoin de configuration.yml et base d'users pour démarrer
+      - ./authelia:/config
+    networks: 
+      - int
+
+networks:
+  int:

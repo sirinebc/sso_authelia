@@ -1,0 +1,4 @@
+users:
+  test:
+    password: "$argon2id$v=19$m=65536,t=3,p=4$Lpru2w+iMv0Byn/Ecpdvlw$ljGMN/LmksZizeb9xEfMyumY+om+LaUPL3Xm+AzwBdg"
+    displayname: test
