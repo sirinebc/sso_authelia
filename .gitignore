@@ -5,6 +5,17 @@ certs/
 authelia/db.sqlite3
 authelia/notification.txt
 
+#données gitlab runtime
+gitlab/gitlab-secrets.json
+gitlab/ssh_host_ecdsa_key
+gitlab/ssh_host_ecdsa_key.pub
+gitlab/ssh_host_ed25519_key
+gitlab/ssh_host_ed25519_key.pub
+gitlab/ssh_host_rsa_key
+gitlab/ssh_host_rsa_key.pub
+gitlab/initial_root_password
+gitlab/trusted-certs/
+
 # secrets
 *.env
 .env*

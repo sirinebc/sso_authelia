@@ -8,14 +8,64 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - ./certs:/etc/nginx/certs
     networks: 
-      - int
+      net:
+        # Pour que Docker résolve correctement ce domaine vers le proxy, c'est lui qui a la clé privée donc il doit faire la terminaison TLS. Chaque service fait confiance au CA qui a signé le certificat du proxy donc ils vont autorisé la connexion HTTPS à ce domaine
+        aliases:
+          - auth.test.local
 
   authelia:
     image : authelia/authelia
+    secrets: ['authelia_oidc_key', 'authelia_jwt_secret', 'authelia_session_secret', 'authelia_storage_key']
+    environment:
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /run/secrets/authelia_jwt_secret
+      AUTHELIA_SESSION_SECRET_FILE: /run/secrets/authelia_session_secret
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/authelia_storage_key
+      AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /run/secrets/authelia_oidc_key
     volumes: # authelia a besoin de configuration.yml et base d'users pour démarrer
       - ./authelia:/config
     networks: 
-      - int
-
+      - net
+      
+  gitlab:
+    image : gitlab/gitlab-ce
+    secrets:
+      - source: gitlab_oidc_secret
+    volumes:
+      - ./gitlab:/etc/gitlab
+      # Le certificat CA qui a signé celui du reverse proxy (sert à accéder à auth.test.local en HTTPS)
+      - ./certs/rootCA.pem:/etc/gitlab/trusted-certs/rootCA.pem
+    networks: 
+      - net
+      
+  jenkins: 
+    build : 
+      context: . 
+      dockerfile: jenkins/Dockerfile
+    environment : 
+      # évite de lancer le wizard d'installation au premier startup de jenkins
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      # ou trouver le fichier de config pour configuration as code de jenkins
+      - CASC_JENKINS_CONFIG=/usr/share/jenkins/casc.yml
+    secrets:
+      - source: jenkins_oidc_secret
+    volumes:
+      - ./jenkins/casc.yml:/usr/share/jenkins/casc.yml
+    networks: 
+      - net
+      
 networks:
-  int:
+  net:
+
+secrets:
+  authelia_oidc_key:
+    file: ./secrets/authelia_oidc_key
+  gitlab_oidc_secret:
+    file: ./secrets/gitlab_oidc_secret    
+  jenkins_oidc_secret:
+    file: ./secrets/jenkins_oidc_secret   
+  authelia_jwt_secret:
+    file: ./secrets/authelia_jwt_secret
+  authelia_session_secret:
+    file: ./secrets/authelia_session_secret
+  authelia_storage_key:
+    file: ./secrets/authelia_storage_key

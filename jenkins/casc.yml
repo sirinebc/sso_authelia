@@ -1,0 +1,17 @@
+jenkins:
+  systemMessage: "Jenkins configured via CasC"
+  securityRealm:
+    oic:
+      clientId: "jenkins"
+      clientSecret: "${file:/run/secrets/jenkins_oidc_secret}" # partagé avec authelia
+      userNameField: "preferred_username"
+      serverConfiguration:
+        wellKnown:
+          wellKnownOpenIDConfigurationUrl: "https://auth.test.local/.well-known/openid-configuration"
+          scopesOverride: "openid profile email groups"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+unclassified:
+  location:
+    url: "https://jenkins.test.local/" # l'url externe 
