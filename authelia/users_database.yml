@@ -1,5 +1,45 @@
 users:
-  test:
-    password: "$argon2id$v=19$m=65536,t=3,p=4$Lpru2w+iMv0Byn/Ecpdvlw$ljGMN/LmksZizeb9xEfMyumY+om+LaUPL3Xm+AzwBdg"
-    displayname: test
-    email: 'user@test.local'
+    admin:
+        password: $argon2id$v=19$m=65536,t=3,p=4$c5MABZrJfnfRfAu5yoy1sg$1Ix5nrDHQ0Q5vSHvAKF01xGl7wPAvkWKyfxnN+3SBi4
+        displayname: admin
+        email: admin@test.local
+        groups:
+            - admins
+        given_name: ""
+        middle_name: ""
+        family_name: ""
+        nickname: ""
+        gender: ""
+        birthdate: ""
+        website: ""
+        profile: ""
+        picture: ""
+        zoneinfo: ""
+        locale: ""
+        phone_number: ""
+        phone_extension: ""
+        disabled: false
+        address: null
+        extra: {}
+    user:
+        password: $argon2id$v=19$m=65536,t=3,p=4$FqhYyY6d7uD9nvIXUWLTUQ$l4vMbgNqxca3gNUU9Xc80U43Irj7Aih2StE5DeofByc
+        displayname: user
+        email: user@test.local
+        groups:
+            - devs
+        given_name: ""
+        middle_name: ""
+        family_name: ""
+        nickname: ""
+        gender: ""
+        birthdate: ""
+        website: ""
+        profile: ""
+        picture: ""
+        zoneinfo: ""
+        locale: ""
+        phone_number: ""
+        phone_extension: ""
+        disabled: false
+        address: null
+        extra: {}

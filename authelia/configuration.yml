@@ -26,7 +26,7 @@
 ## Set the default 2FA method for new users and for when a user has a preferred method configured that has been
 ## disabled. This setting must be a method that is enabled.
 ## Options are totp, webauthn, mobile_push.
-# default_2fa_method: ''
+default_2fa_method: 'totp'
 
 ##
 ## Server Configuration
@@ -178,51 +178,51 @@ server:
 ## TOTP Configuration
 ##
 ## Parameters used for TOTP generation.
-# totp:
+totp:
   ## Disable TOTP.
-  # disable: false
+  disable: false
 
   ## The issuer name displayed in the Authenticator application of your choice.
-  # issuer: 'authelia.com'
+  issuer: 'authelia.com'
 
   ## The TOTP algorithm to use.
   ## It is CRITICAL you read the documentation before changing this option:
   ## https://www.authelia.com/c/totp#algorithm
-  # algorithm: 'SHA1'
+  algorithm: 'SHA1'
 
   ## The number of digits a user has to input. Must either be 6 or 8.
   ## Changing this option only affects newly generated TOTP configurations.
   ## It is CRITICAL you read the documentation before changing this option:
   ## https://www.authelia.com/c/totp#digits
-  # digits: 6
+  digits: 6
 
   ## The period in seconds a Time-based One-Time Password is valid for.
   ## Changing this option only affects newly generated TOTP configurations.
-  # period: 30
+  period: 30
 
   ## The skew controls number of Time-based One-Time Passwords either side of the current one that are valid.
   ## Warning: before changing skew read the docs link below.
-  # skew: 1
+  skew: 1
   ## See: https://www.authelia.com/c/totp#input-validation to read
   ## the documentation.
 
   ## The size of the generated shared secrets. Default is 32 and is sufficient in most use cases, minimum is 20.
-  # secret_size: 32
+  secret_size: 32
 
   ## The allowed algorithms for a user to pick from.
-  # allowed_algorithms:
-  # - 'SHA1'
+  allowed_algorithms:
+    - 'SHA1'
 
   ## The allowed digits for a user to pick from.
-  # allowed_digits:
-  # - 6
+  allowed_digits:
+    - 6
 
   ## The allowed periods for a user to pick from.
-  # allowed_periods:
-  # - 30
+  allowed_periods:
+    - 30
 
   ## Disable the reuse security policy which prevents replays of one-time password code values.
-  # disable_reuse_security_policy: false
+  disable_reuse_security_policy: false
 
 ##
 ## WebAuthn Configuration
@@ -327,13 +327,13 @@ identity_validation:
   ## Reset Password flow. Adjusts how the reset password flow operates.
   reset_password:
     ## Maximum allowed time before the JWT is generated and when the user uses it in the duration common syntax.
-    # jwt_lifespan: '5 minutes'
+    jwt_lifespan: '5 minutes'
 
     ## The algorithm used for the Reset Password JWT.
-    # jwt_algorithm: 'HS256'
+    jwt_algorithm: 'HS256'
 
     ## The secret key used to sign and verify the JWT.
-    # jwt_secret: '' PLUS BESOIN DE CETTE LIGNE AUTHELIA LIT LA VAR ENV $AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE
+    # jwt_secret: '' $AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE
 
   ## Elevated Session flows. Adjusts the flow which require elevated sessions for example managing credentials, adding,
   ## removing, etc.
@@ -359,27 +359,27 @@ identity_validation:
 ## NTP Configuration
 ##
 ## This is used to validate the servers time is accurate enough to validate TOTP.
-# ntp:
+ntp:
   ## The address of the NTP server to connect to in the address common syntax.
   ## Format: [<scheme>://]<hostname>[:<port>].
   ## Square brackets indicate optional portions of the format. Scheme must be 'udp', 'udp4', or 'udp6'.
   ## The default scheme is 'udp'. The default port is '123'.
-  # address: 'udp://time.cloudflare.com:123'
+  address: 'udp://time.cloudflare.com:123'
 
   ## NTP version.
-  # version: 4
+  version: 4
 
   ## Maximum allowed time offset between the host and the NTP server in the duration common syntax.
-  # max_desync: '3 seconds'
+  max_desync: '3 seconds'
 
   ## Disables the NTP check on startup entirely. This means Authelia will not contact a remote service at all if you
   ## set this to true, and can operate in a truly offline mode.
-  # disable_startup_check: false
+  disable_startup_check: false
 
   ## The default of false will prevent startup only if we can contact the NTP server and the time is out of sync with
   ## the NTP server more than the configured max_desync. If you set this to true, an error will be logged but startup
   ## will continue regardless of results.
-  # disable_failure: false
+  disable_failure: false
 
 ##
 ## Definitions
@@ -412,13 +412,13 @@ identity_validation:
 ## The available providers are: `file`, `ldap`. You must use only one of these providers.
 authentication_backend:
   ## Password Change Options.
-  # password_change:
+  password_change:
     ## Disable both the HTML element and the API for password change functionality.
-    # disable: false
+    disable: false
   ## Password Reset Options.
-  # password_reset:
+  password_reset:
     ## Disable both the HTML element and the API for reset password functionality.
-    # disable: false
+    disable: false
 
     ## External reset password url that redirects the user to an external reset portal. This disables the internal reset
     ## functionality.
@@ -721,9 +721,9 @@ authentication_backend:
 access_control:
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
-  default_policy: one_factor #'deny'
+  default_policy: 'deny' #'deny'
 
-  # rules:
+  rules:
     ## Rules applied to everyone
     # - domain: 'public.example.com'
     #   policy: 'bypass'
@@ -768,12 +768,13 @@ access_control:
         # - 'group:moderators'
     #   policy: 'two_factor'
 
-    ## Rules applied to 'dev' group
-    # - domain: 'dev.example.com'
-    #   resources:
-        # - '^/groups/dev/.*$'
-    #   subject: 'group:dev'
-    #   policy: 'two_factor'
+    ## Rules applied to 'dev' group      
+    - domain: 
+        - 'app.test.local'
+    #  resources:
+    #    - '^/groups/guest/.*$'
+      subject: 'group:admins'
+      policy: 'one_factor'
 
     ## Rules applied to user 'john'
     # - domain: 'dev.example.com'
@@ -982,20 +983,20 @@ session:
 ##
 ## This mechanism prevents attackers from brute forcing the first factor. It bans the user if too many attempts are made
 ## in a short period of time.
-# regulation:
+regulation:
   ## Regulation Mode.
-  # modes:
-    # - 'user'
+  modes:
+    - 'user'
 
   ## The number of failed login attempts before user is banned. Set it to 0 to disable regulation.
-  # max_retries: 3
+  max_retries: 3
 
   ## The time range during which the user can attempt login before being banned in the duration common syntax. The user
   ## is banned if the authentication failed 'max_retries' times in a 'find_time' seconds window.
-  # find_time: '2 minutes'
+  find_time: '2 minutes'
 
   ## The length of time before a banned user can login again in the duration common syntax.
-  # ban_time: '5 minutes'
+  ban_time: '5 minutes'
 
 ##
 ## Storage Provider Configuration
@@ -1331,14 +1332,14 @@ identity_providers:
 
     ## Authorization Policies which can be utilized by clients. The 'policy_name' is an arbitrary value that you pick
     ## which is utilized as the value for the 'authorization_policy' on the client.
-    # authorization_policies:
-      # policy_name:
-        # default_policy: 'two_factor'
-        # rules:
-          # - policy: 'one_factor'
-          #   subject: 'group:services'
-          #   networks:
-              #  - '192.168.1.0/24'
+    authorization_policies:
+      default_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'two_factor' 
+            subject: 'group:devs'
+          - policy: 'one_factor' 
+            subject: 'group:admins'
 
     ## The lifespans configure the expiration for these token types in the duration common syntax. In addition to this
     ## syntax the lifespans can be customized per-client.
@@ -1378,7 +1379,7 @@ identity_providers:
       - 
         client_id: 'jenkins'
         client_secret: '$pbkdf2-sha512$310000$60c0/dtuTSgS7Ve1wBXTNA$bvIWVOL3DBPFvo6NVoofnnSvIcx2niJSi1w4q3H4tcsuewNGS09VMEMhJBqUh99reZyjkc6E9tym/Xpw43i0gQ'  # secret hashé du casc.yml
-        authorization_policy: 'one_factor'
+        authorization_policy: 'default_policy'
         redirect_uris:
           - 'https://jenkins.test.local/securityRealm/finishLogin'
         scopes:
@@ -1440,7 +1441,7 @@ identity_providers:
 
         ## The policy to require for this client; one_factor or two_factor. Can also be the key names for the
         ## authorization policies section.
-        authorization_policy: 'one_factor'
+        authorization_policy: 'default_policy'
 
         ## The custom lifespan name to use for this client. This must be configured independent of the client before
         ## utilization. Custom lifespans are reusable similar to authorization policies.
