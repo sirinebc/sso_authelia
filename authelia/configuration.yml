@@ -31,7 +31,7 @@ default_2fa_method: 'totp'
 ##
 ## Server Configuration
 ##
-server:
+# server:
   ## The address for the Main server to listen on in the address common syntax.
   ## Formats:
   ##  - [<scheme>://]<hostname>[:<port>][/<path>]
@@ -94,7 +94,7 @@ server:
 
   ## Server Endpoints configuration.
   ## This section is considered advanced and it SHOULD NOT be configured unless you've read the relevant documentation.
-  endpoints:
+#  endpoints:
     ## Enables the pprof endpoint.
     # enable_pprof: false
 
@@ -102,9 +102,9 @@ server:
     # enable_expvars: false
 
     ## Configure the authz endpoints.
-    authz:
-      forward-auth:
-        implementation: 'ForwardAuth'
+    #authz:
+    #  forward-auth:
+    #    implementation: 'ForwardAuth'
         # authn_strategies: []
       # ext-authz:
         # implementation: 'ExtAuthz'
@@ -721,9 +721,9 @@ authentication_backend:
 access_control:
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
-  default_policy: 'deny' #'deny'
+  default_policy: 'two_factor' #'deny'
 
-  rules:
+  #rules:
     ## Rules applied to everyone
     # - domain: 'public.example.com'
     #   policy: 'bypass'
@@ -769,12 +769,12 @@ access_control:
     #   policy: 'two_factor'
 
     ## Rules applied to 'dev' group      
-    - domain: 
-        - 'app.test.local'
+    #- domain: 
+    #    - 'app.test.local'
     #  resources:
     #    - '^/groups/guest/.*$'
-      subject: 'group:admins'
-      policy: 'one_factor'
+    #  subject: 'group:admins'
+    #  policy: 'one_factor'
 
     ## Rules applied to user 'john'
     # - domain: 'dev.example.com'
@@ -843,7 +843,7 @@ session:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
       # correspond à l'url de l'app à laquelle on veut accéder si les creds sont bons
-      default_redirection_url: 'https://auth.test.local/authenticated'
+      # default_redirection_url: 'https://auth.test.local/authenticated'
 
       ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
       ## Please read https://www.authelia.com/c/session#same_site
@@ -985,6 +985,7 @@ session:
 ## in a short period of time.
 regulation:
   ## Regulation Mode.
+  # on peut aussi ban l'ip
   modes:
     - 'user'
 
@@ -1333,13 +1334,45 @@ identity_providers:
     ## Authorization Policies which can be utilized by clients. The 'policy_name' is an arbitrary value that you pick
     ## which is utilized as the value for the 'authorization_policy' on the client.
     authorization_policies:
-      default_policy:
-        default_policy: 'deny'
+      #default_policy:
+      #  default_policy: 'deny'
+      #  rules:
+      #    - policy: 'two_factor' 
+      #      subject: 'group:devs'
+      #    - policy: 'one_factor' 
+      #      subject: 'group:admins'
+      gitlab:
+        default_policy: deny
         rules:
-          - policy: 'two_factor' 
-            subject: 'group:devs'
-          - policy: 'one_factor' 
-            subject: 'group:admins'
+          - policy: two_factor
+            subject: group:backend
+          - policy: two_factor
+            subject: group:frontend
+          - policy: two_factor
+            subject: group:devops
+          - policy: two_factor
+            subject: group:security
+          - policy: two_factor
+            subject: group:managers
+          - policy: two_factor
+            subject: group:qa
+    
+      jenkins:
+        default_policy: deny
+        rules:
+          - policy: two_factor
+            subject: group:devops
+          - policy: two_factor
+            subject: group:backend
+          - policy: two_factor
+            subject: group:frontend
+          - policy: two_factor
+            subject: group:security
+          - policy: two_factor
+            subject: group:managers
+          - policy: two_factor
+            subject: group:support
+
 
     ## The lifespans configure the expiration for these token types in the duration common syntax. In addition to this
     ## syntax the lifespans can be customized per-client.
@@ -1379,7 +1412,7 @@ identity_providers:
       - 
         client_id: 'jenkins'
         client_secret: '$pbkdf2-sha512$310000$60c0/dtuTSgS7Ve1wBXTNA$bvIWVOL3DBPFvo6NVoofnnSvIcx2niJSi1w4q3H4tcsuewNGS09VMEMhJBqUh99reZyjkc6E9tym/Xpw43i0gQ'  # secret hashé du casc.yml
-        authorization_policy: 'default_policy'
+        authorization_policy: 'jenkins'
         redirect_uris:
           - 'https://jenkins.test.local/securityRealm/finishLogin'
         scopes:
@@ -1441,7 +1474,7 @@ identity_providers:
 
         ## The policy to require for this client; one_factor or two_factor. Can also be the key names for the
         ## authorization policies section.
-        authorization_policy: 'default_policy'
+        authorization_policy: 'gitlab'
 
         ## The custom lifespan name to use for this client. This must be configured independent of the client before
         ## utilization. Custom lifespans are reusable similar to authorization policies.

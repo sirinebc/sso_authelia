@@ -1,45 +1,230 @@
 users:
-    admin:
-        password: $argon2id$v=19$m=65536,t=3,p=4$c5MABZrJfnfRfAu5yoy1sg$1Ix5nrDHQ0Q5vSHvAKF01xGl7wPAvkWKyfxnN+3SBi4
-        displayname: admin
-        email: admin@test.local
-        groups:
-            - admins
-        given_name: ""
-        middle_name: ""
-        family_name: ""
-        nickname: ""
-        gender: ""
-        birthdate: ""
-        website: ""
-        profile: ""
-        picture: ""
-        zoneinfo: ""
-        locale: ""
-        phone_number: ""
-        phone_extension: ""
-        disabled: false
-        address: null
-        extra: {}
-    user:
-        password: $argon2id$v=19$m=65536,t=3,p=4$FqhYyY6d7uD9nvIXUWLTUQ$l4vMbgNqxca3gNUU9Xc80U43Irj7Aih2StE5DeofByc
-        displayname: user
-        email: user@test.local
-        groups:
-            - devs
-        given_name: ""
-        middle_name: ""
-        family_name: ""
-        nickname: ""
-        gender: ""
-        birthdate: ""
-        website: ""
-        profile: ""
-        picture: ""
-        zoneinfo: ""
-        locale: ""
-        phone_number: ""
-        phone_extension: ""
-        disabled: false
-        address: null
-        extra: {}
+  alice.dupont:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Alice Dupont
+    email: alice.dupont@test.local
+    groups:
+      - frontend
+      - developers
+    given_name: Alice
+    middle_name: ""
+    family_name: Dupont
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  bob.martin:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Bob Martin
+    email: bob.martin@test.local
+    groups:
+      - backend
+      - developers
+    given_name: Bob
+    middle_name: ""
+    family_name: Martin
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  claire.leroy:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Claire Leroy
+    email: claire.leroy@test.local
+    groups:
+      - pm
+      - managers
+    given_name: Claire
+    middle_name: ""
+    family_name: Leroy
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  david.moreau:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: David Moreau
+    email: david.moreau@test.local
+    groups:
+      - sysadmin
+      - infrastructure
+    given_name: David
+    middle_name: ""
+    family_name: Moreau
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  eva.bernard:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Eva Bernard
+    email: eva.bernard@test.local
+    groups:
+      - qa
+      - gitlab_readonly
+    given_name: Eva
+    middle_name: ""
+    family_name: Bernard
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  francois.petit:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: François Petit
+    email: francois.petit@test.local
+    groups:
+      - security
+      - auditors
+    given_name: François
+    middle_name: ""
+    family_name: Petit
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  gabrielle.rousseau:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Gabrielle Rousseau
+    email: gabrielle.rousseau@test.local
+    groups:
+      - designer
+      - uiux
+    given_name: Gabrielle
+    middle_name: ""
+    family_name: Rousseau
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  hugo.lefebvre:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Hugo Lefebvre
+    email: hugo.lefebvre@test.local
+    groups:
+      - devops
+      - build
+    given_name: Hugo
+    middle_name: ""
+    family_name: Lefebvre
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  isabelle.fontaine:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Isabelle Fontaine
+    email: isabelle.fontaine@test.local
+    groups:
+      - marketing
+    given_name: Isabelle
+    middle_name: ""
+    family_name: Fontaine
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
+  julien.gaillard:
+    password: $argon2id$v=19$m=65536,t=3,p=4$WKCqMv7CIbpTx1JOGiW9mw$GmZxyApWDSmIEA/lAPclXVDx4x4aHhmuffVE+Hb8PBU
+    displayname: Julien Gaillard
+    email: julien.gaillard@test.local
+    groups:
+      - support
+      - limited-nextcloud
+    given_name: Julien
+    middle_name: ""
+    family_name: Gaillard
+    nickname: ""
+    gender: ""
+    birthdate: ""
+    website: ""
+    profile: ""
+    picture: ""
+    zoneinfo: ""
+    locale: ""
+    phone_number: ""
+    phone_extension: ""
+    disabled: false
+    address: null
+    extra: {}
