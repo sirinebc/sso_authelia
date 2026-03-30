@@ -16,6 +16,31 @@ services:
       - ./authelia:/config
     networks: 
       - int
+  mongodb:
+    image: mongo:8
+    restart: unless-stopped
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - int
+  rocketchat:
+    image: rocketchat/rocket.chat:latest
+    restart: unless-stopped
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/rocketchat?replicaSet=rs0
+      - ROOT_URL=https://rocket.test.local
+      - PORT=3000
+    depends_on:
+      - mongodb
+    ports:
+      - "3000:3000"
+    networks:
+      - int
 
 networks:
   int:
+volumes:
+  mongo_data:
