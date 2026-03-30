@@ -39,8 +39,37 @@ services:
       - "3000:3000"
     networks:
       - int
+  postgres-confluence:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=confluence
+      - POSTGRES_USER=confluence
+      - POSTGRES_PASSWORD=confluencepassword
+    volumes:
+      - confluence_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - int
+
+  confluence:
+    image: atlassian/confluence:latest
+    restart: unless-stopped
+    depends_on:
+      - postgres-confluence
+    environment:
+      - ROOT_URL=https://wiki.test.local
+      - ATL_PROXY_NAME=wiki.test.local
+      - ATL_PROXY_PORT=443
+      - ATL_TOMCAT_SCHEME=https
+    ports:
+      - "8090:8090"
+    networks:
+      - int
 
 networks:
   int:
 volumes:
   mongo_data:
+  confluence_pg_data:

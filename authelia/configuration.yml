@@ -849,8 +849,10 @@ session:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
       # correspond à l'url de l'app à laquelle on veut accéder si les creds sont bons
-      #default_redirection_url: 'https://app.test.local'
-      default_redirection_url: 'https://rocket.test.local'
+      default_redirection_url: 'https://app.test.local'
+      #default_redirection_url: 'https://rocket.test.local'
+      #default_redirection_url: 'https://wiki.test.local'
+    
 
       ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
       ## Please read https://www.authelia.com/c/session#same_site
