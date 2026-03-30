@@ -5,7 +5,6 @@ users:
     email: alice.dupont@test.local
     groups:
       - frontend
-      - developers
     given_name: Alice
     middle_name: ""
     family_name: Dupont
@@ -28,7 +27,6 @@ users:
     email: bob.martin@test.local
     groups:
       - backend
-      - developers
     given_name: Bob
     middle_name: ""
     family_name: Martin
@@ -50,7 +48,6 @@ users:
     displayname: Claire Leroy
     email: claire.leroy@test.local
     groups:
-      - pm
       - managers
     given_name: Claire
     middle_name: ""
@@ -74,7 +71,6 @@ users:
     email: david.moreau@test.local
     groups:
       - sysadmin
-      - infrastructure
     given_name: David
     middle_name: ""
     family_name: Moreau
@@ -97,7 +93,6 @@ users:
     email: eva.bernard@test.local
     groups:
       - qa
-      - gitlab_readonly
     given_name: Eva
     middle_name: ""
     family_name: Bernard
@@ -120,7 +115,6 @@ users:
     email: francois.petit@test.local
     groups:
       - security
-      - auditors
     given_name: François
     middle_name: ""
     family_name: Petit
@@ -143,7 +137,6 @@ users:
     email: gabrielle.rousseau@test.local
     groups:
       - designer
-      - uiux
     given_name: Gabrielle
     middle_name: ""
     family_name: Rousseau
@@ -166,7 +159,6 @@ users:
     email: hugo.lefebvre@test.local
     groups:
       - devops
-      - build
     given_name: Hugo
     middle_name: ""
     family_name: Lefebvre
@@ -211,7 +203,6 @@ users:
     email: julien.gaillard@test.local
     groups:
       - support
-      - limited-nextcloud
     given_name: Julien
     middle_name: ""
     family_name: Gaillard

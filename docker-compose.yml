@@ -2,14 +2,13 @@ services:
 
   reverse-proxy :
     image : nginx:alpine
-    ports: # exposer le port 443 https car nginx doit recevoir le traffic externe (depuis l'host)
+    ports: 
       - "443:443" 
-    volumes: # mapper les fichiers conf local -> conteneur
+    volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./certs:/etc/nginx/certs
     networks: 
       net:
-        # Pour que Docker résolve correctement ce domaine vers le proxy, c'est lui qui a la clé privée donc il doit faire la terminaison TLS. Chaque service fait confiance au CA qui a signé le certificat du proxy donc ils vont autorisé la connexion HTTPS à ce domaine
         aliases:
           - auth.test.local
 
@@ -21,7 +20,7 @@ services:
       AUTHELIA_SESSION_SECRET_FILE: /run/secrets/authelia_session_secret
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/authelia_storage_key
       AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /run/secrets/authelia_oidc_key
-    volumes: # authelia a besoin de configuration.yml et base d'users pour démarrer
+    volumes: 
       - ./authelia:/config
     networks: 
       - net
@@ -32,7 +31,7 @@ services:
       - source: gitlab_oidc_secret
     volumes:
       - ./gitlab:/etc/gitlab
-      # Le certificat CA qui a signé celui du reverse proxy (sert à accéder à auth.test.local en HTTPS)
+      # sert à accéder à auth.test.local en HTTPS
       - ./certs/rootCA.pem:/etc/gitlab/trusted-certs/rootCA.pem
     networks: 
       - net
