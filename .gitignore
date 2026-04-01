@@ -1,0 +1,49 @@
+# certificats, clés et secrets
+certs/
+secrets/
+*.env
+.env*
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# données runtime Authelia
+authelia/db.sqlite3
+authelia/notification.txt
+authelia/users_database.yml
+authelia/*.log
+
+# données runtime Nextcloud
+nextcloud/html/
+
+# données runtime Jira
+jira/data/
+
+# bases locales, logs et temporaires
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.pid
+*.tmp
+*.bak
+*.old
+
+# OS
+.DS_Store
+Thumbs.db
+
+# éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
