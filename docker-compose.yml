@@ -20,6 +20,7 @@ services:
       AUTHELIA_SESSION_SECRET_FILE: /run/secrets/authelia_session_secret
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/authelia_storage_key
       AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /run/secrets/authelia_oidc_key
+      AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /run/secrets/authelia_hmac
     volumes: 
       - ./authelia:/config
     networks: 
@@ -68,3 +69,5 @@ secrets:
     file: ./secrets/authelia_session_secret
   authelia_storage_key:
     file: ./secrets/authelia_storage_key
+  authelia_hmac:
+    file: ./secrets/authelia_hmac
