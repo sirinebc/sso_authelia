@@ -1,44 +1,58 @@
-services: 
-
-  reverse-proxy :
-    image : nginx:alpine
-    ports: # exposer le port 443 https car nginx doit recevoir le traffic externe (depuis l'host)
-      - "443:443" 
-    volumes: # mapper les fichiers conf local -> conteneur
+services:
+  reverse-proxy:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+    volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./certs:/etc/nginx/certs
-    networks: 
-      - int
+    networks:
+      net:
+        aliases:
+          - auth.test.local
 
   authelia:
-    image : authelia/authelia
-    volumes: # authelia a besoin de configuration.yml et base d'users pour démarrer
+    image: authelia/authelia
+    volumes:
       - ./authelia:/config
-    networks: 
-      - int
+    networks:
+    - net
+
   mongodb:
     image: mongo:8
-    restart: unless-stopped
     command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
     volumes:
       - mongo_data:/data/db
-    ports:
-      - "27017:27017"
     networks:
-      - int
+      - net
+
   rocketchat:
-    image: rocketchat/rocket.chat:latest
-    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: rocketchat/Dockerfile
     environment:
-      - MONGO_URL=mongodb://mongodb:27017/rocketchat?replicaSet=rs0
-      - ROOT_URL=https://rocket.test.local
-      - PORT=3000
+      MONGO_URL: mongodb://mongodb:27017/rocketchat?replicaSet=rs0
+      ROOT_URL: https://rocket.test.local
+      PORT: 3000
+    secrets:
+      - rocketchat_oidc_secret
     depends_on:
       - mongodb
-    ports:
-      - "3000:3000"
     networks:
-      - int
+      - net
+
+  confluence:
+    build:
+      context: .
+      dockerfile: confluence/Dockerfile
+    secrets:
+      - confluence_oidc_secret
+    depends_on:
+      - postgres-confluence
+    volumes:
+      - confluence_data:/var/atlassian/application-data/confluence
+    networks:
+      - net
   postgres-confluence:
     image: postgres:16
     restart: unless-stopped
@@ -51,25 +65,16 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - int
-
-  confluence:
-    image: atlassian/confluence:latest
-    restart: unless-stopped
-    depends_on:
-      - postgres-confluence
-    environment:
-      - ROOT_URL=https://wiki.test.local
-      - ATL_PROXY_NAME=wiki.test.local
-      - ATL_PROXY_PORT=443
-      - ATL_TOMCAT_SCHEME=https
-    ports:
-      - "8090:8090"
-    networks:
-      - int
-
+      - net
 networks:
-  int:
+  net:
+
 volumes:
   mongo_data:
+  confluence_data:
   confluence_pg_data:
+secrets:
+  rocketchat_oidc_secret:
+    file: ./secrets/rocketchat_oidc_secret
+  confluence_oidc_secret:
+    file: ./secrets/confluence_oidc_secret

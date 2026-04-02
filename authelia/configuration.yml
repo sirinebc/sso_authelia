@@ -849,7 +849,6 @@ session:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
       # correspond à l'url de l'app à laquelle on veut accéder si les creds sont bons
-      default_redirection_url: 'https://app.test.local'
       #default_redirection_url: 'https://rocket.test.local'
       #default_redirection_url: 'https://wiki.test.local'
     
@@ -1277,37 +1276,63 @@ notifier:
 ##
 ## Identity Providers
 ##
-# identity_providers:
+identity_providers:
 
   ##
   ## OpenID Connect (Identity Provider)
   ##
   ## It's recommended you read the documentation before configuration of this section.
   ## See: https://www.authelia.com/c/oidc/provider
-  # oidc:
+  oidc:
     ## The hmac_secret is used to sign OAuth2 tokens (authorization code, access tokens and refresh tokens).
     ## HMAC Secret can also be set using a secret: https://www.authelia.com/c/secrets
-    # hmac_secret: 'this_is_a_secret_abc123abc123abc'
+    hmac_secret: '0DV1NHfk3aa7MbruOeD8riFHrCeihePp7wvlsJGK5xKIbyKRMikJMka7MdmeK67L'
 
     ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
-    # jwks:
-    # -
+    jwks:
+      -
       ## Key ID embedded into the JWT header for key matching. Must be an alphanumeric string with 7 or less characters.
       ## This value is automatically generated if not provided. It's recommended to not configure this.
       # key_id: 'example'
 
       ## The key algorithm used with this key.
-      # algorithm: 'RS256'
+        algorithm: 'RS256'
 
       ## The key use expected with this key. Currently only 'sig' is supported.
       # use: 'sig'
 
       ## Required Private Key in PEM DER form.
-      # key: |
-        # -----BEGIN PRIVATE KEY-----
-        # ...
-        # -----END PRIVATE KEY-----
+        key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCiznsyXM5j+0Lu
+          FpnxehJlzxBU82wyqayzKdZs27fJ4/pc3Fe+hNMSiPx1tvf3Ua0nkabAyTAvCkzp
+          B9LY0GNBCl9O34JyJ5o8uBxcHT3G/tDEs3BXVkQDAG9VtNLdlPdBSXeTVkI+Qc31
+          qQAzwWquANX1nKnx6b415ytmcKpoQxWfnp/m8tuOwKtiqszYsORVvfGy1na8HhYe
+          UbvpKjeEdH+rd0qT6in37pgCl0CjSUzJ85YU566BS15m3bM04b8bXWgMKQ3p5dkn
+          PPDsEqxg7GEKy8JQwZzpXfsO1Ac6OCsW03TJZXlxdZV76yIKATMxXiryzX0yweP/
+          EQD4OUjbAgMBAAECggEATdRr7L2VJRLfAjbnzRrQZL9CTXo5RVb76oKbsVqwV+GW
+          tIHZqIiS5w95sUSQ8jinkHz+vLbxQ+umrNhCocetS1CME4aiM7Re9ZwGYrrP56u1
+          XfNyRy5EQTMaBlz1WVx3f0yBz3uzG1QWA9SQ9i0GtLxNjKciTzWw6s/iXYyKymBU
+          NBrU5MK3PvCQvGB3DF+YzquhlNmpQFAMgfwujPqK54nKefu2TmPqqzzkayLC2SU1
+          sw8XSsCAQmX8C/nuW0yO7sfmVGC7jhre7XRxhR/kVRgn2Ts0g0E/gb6grlIctSiB
+          PE3762laDWgk2elB2Kagp4ROwstAwscp9NBHV8L5gQKBgQDV5A5OPXSwf9KODOta
+          IHnhXvlH6nf+tHilnE+ovDfZgUMWp7qhaLHh45IQbBTi1ecF2uHvcMohIVOhh854
+          JaBbwOyEU6a3dw7SavHA/tIOt6oWTHsfarHQNa7+Z6JW+mAjVojWQQZ6x58meD5S
+          UV57AhS5IkbsJv4SILkotcAP4QKBgQDC29CRdxjIBxIzY6D9s+2PbDMNbusPRt0L
+          j+CA8+dWVLwW9mJFGtwJqM0IKvfZsWfXxbNSM9BTxxnjps9YsbjEBcghmzLugW4V
+          t/fZveGbYa0hG8zGA6Sa6mEx2v4Fwe8V+oI2poc/+hN4Mr1V15V0j0XdBsgR0mu+
+          8cnUgCmgOwKBgQCkcxdcqHuTSHPGq8A4J0gOM0tOM8PWnUM1cZz9itkV7gB65rLj
+          bu91Udb3sWHNldBt/ABCbGG8XzdBtnzUe3lzkj1G8Fn6LRvERF1jmYg/sI6hXmQ7
+          n3jfMKc/CscSQKayBNJoiM5GkDyZA1JHUDBoOw1b2jLVVpV5spcp6bOlgQKBgERE
+          4Tjlwg/qskzA3hmk3Vk/bk+Jid9LU4yGdwCW83kCrPdakSlm9KqJsnPnIfjqN9iY
+          EnB9aMLBYeepfMG1WmeLIwfrKRf4zsnbL4HhDdbzjMWpyL+jbRs9fJoMAK2huZM4
+          tkBRbddTVVjqZf1aT6mLvM1oX9Ymo8s9SRojYPIbAoGAF8S0ZTbqhvHxUTqxbpY/
+          n0QN8UmAGe0rgE54StvWy++uPdIu9OoNGaYbN5p9erodaWAqH8E00BczbUKO+xLw
+          iwA5s/oaXinAsL0rQy/IbTWy0WzojANb0gVjkdY1LXjXnE3IGd4FnmiN+dlM3uhD
+          2MgziwcpipH9r9szo7fpdec=
+
+          -----END PRIVATE KEY-----
 
 
       ## Optional matching certificate chain in PEM DER form that matches the key. All certificates within the chain
@@ -1344,7 +1369,7 @@ notifier:
 
     ## Authorization Policies which can be utilized by clients. The 'policy_name' is an arbitrary value that you pick
     ## which is utilized as the value for the 'authorization_policy' on the client.
-    # authorization_policies:
+    #authorization_policies:
       # policy_name:
         # default_policy: 'two_factor'
         # rules:
@@ -1387,7 +1412,36 @@ notifier:
     ## Clients is a list of registered clients and their configuration.
     ## It's recommended you read the documentation before configuration of a registered client.
     ## See: https://www.authelia.com/c/oidc/registered-clients
-    # clients:
+    clients:
+      - client_id: 'rocketchat'
+        client_name: 'Rocket.Chat'
+        client_secret: '$pbkdf2-sha512$310000$UOJiZR0nW01PVOgXd3MFEw$uUrLFFqQQfdsDL7xZfX0qNVjMSWSoTHcy5KBzIGwD0Ow3ioADnrrHTCz34sBbW49qS8JacK.Ukq/TY/Ao9UX4w'
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://rocket.test.local/_oauth/authelia'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+
+      - 
+        client_id: 'confluence'
+        client_name: 'Confluence'
+        client_secret: '$pbkdf2-sha512$310000$wvnPH.IvTWhCvs1AUeQwRg$nqwUUhmYkiWCozTcMx5vdIhbL5POEciiAjR0U1Gj.VmTR40S5deTpEQqz9w6q//SBoPudXK6v4.aD6AY4Gmdvw'
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://confluence.test.local/plugins/servlet/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+
+
+    ## Clients is a list of registered clients and their configuration.
+    ## It's recommended you read the documentation before configuration of a registered client.
+    ## See: https://www.authelia.com/c/oidc/registered-clients
       # -
         ## The Client ID is the OAuth 2.0 and OpenID Connect 1.0 Client ID which is used to link an application to a
         ## configuration.

@@ -1,0 +1,109 @@
+services: 
+
+  reverse-proxy :
+    image : nginx:alpine
+    ports: # exposer le port 443 https car nginx doit recevoir le traffic externe (depuis l'host)
+      - "443:443" 
+    volumes: # mapper les fichiers conf local -> conteneur
+      - ./nginx:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+    networks: 
+      - int
+
+  authelia:
+    image : authelia/authelia
+    volumes: # authelia a besoin de configuration.yml et base d'users pour démarrer
+      - ./authelia:/config
+    networks: 
+      - int
+  mongodb:
+    image: mongo:8
+    restart: unless-stopped
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - int
+  rocketchat:
+    image: rocketchat/rocket.chat:latest
+    restart: unless-stopped
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/rocketchat?replicaSet=rs0
+      - ROOT_URL=https://rocket.test.local
+      - PORT=3000
+    depends_on:
+      - mongodb
+    ports:
+      - "3000:3000"
+    networks:
+      - int
+  postgres-confluence:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=confluence
+      - POSTGRES_USER=confluence
+      - POSTGRES_PASSWORD=confluencepassword
+    volumes:
+      - confluence_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - int
+
+  confluence:
+    image: atlassian/confluence:latest
+    restart: unless-stopped
+    depends_on:
+      - postgres-confluence
+    environment:
+      - ROOT_URL=https://wiki.test.local
+      - ATL_PROXY_NAME=wiki.test.local
+      - ATL_PROXY_PORT=443
+      - ATL_TOMCAT_SCHEME=https
+    ports:
+      - "8090:8090"
+    volumes:
+    - confluence_data:/var/atlassian/application-data/confluence
+    networks:
+      - int
+
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: ldap
+    hostname: ldap.test.local
+    environment:
+      LDAP_ORGANISATION: "Test Company"
+      LDAP_DOMAIN: "test.local"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_TLS: "false"
+    ports:
+      - "389:389"
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+    networks:
+      - int
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    container_name: ldap-admin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: ldap
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8081:80"
+    depends_on:
+      - ldap
+    networks:
+      - int
+networks:
+  int:
+volumes:
+  mongo_data:
+  confluence_pg_data:
+  confluence_data:
+  ldap_data:
+  ldap_config:
