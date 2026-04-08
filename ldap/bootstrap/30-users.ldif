@@ -1,0 +1,149 @@
+dn: uid=alice.dupont@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Alice Dupont
+sn: Dupont
+givenName: Alice
+displayName: Alice Dupont
+uid: alice.dupont@techsolutions.com
+mail: alice.dupont@techsolutions.com
+title: Développeuse Frontend
+description: Groupe principal: frontend
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=bob.martin@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Bob Martin
+sn: Martin
+givenName: Bob
+displayName: Bob Martin
+uid: bob.martin@techsolutions.com
+mail: bob.martin@techsolutions.com
+title: Développeur Backend
+description: Groupe principal: backend
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=claire.leroy@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Claire Leroy
+sn: Leroy
+givenName: Claire
+displayName: Claire Leroy
+uid: claire.leroy@techsolutions.com
+mail: claire.leroy@techsolutions.com
+title: Chef de Projet
+description: Groupe principal: managers
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=david.moreau@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: David Moreau
+sn: Moreau
+givenName: David
+displayName: David Moreau
+uid: david.moreau@techsolutions.com
+mail: david.moreau@techsolutions.com
+title: Administrateur Système
+description: Groupe principal: sysadmin
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=eva.bernard@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Eva Bernard
+sn: Bernard
+givenName: Eva
+displayName: Eva Bernard
+uid: eva.bernard@techsolutions.com
+mail: eva.bernard@techsolutions.com
+title: Testeuse QA
+description: Groupe principal: qa
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=francois.petit@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: François Petit
+sn: Petit
+givenName: François
+displayName: François Petit
+uid: francois.petit@techsolutions.com
+mail: francois.petit@techsolutions.com
+title: Responsable Sécurité
+description: Groupe principal: security
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=gabrielle.rousseau@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Gabrielle Rousseau
+sn: Rousseau
+givenName: Gabrielle
+displayName: Gabrielle Rousseau
+uid: gabrielle.rousseau@techsolutions.com
+mail: gabrielle.rousseau@techsolutions.com
+title: Designer UI/UX
+description: Groupe principal: designer
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=hugo.lefebvre@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Hugo Lefebvre
+sn: Lefebvre
+givenName: Hugo
+displayName: Hugo Lefebvre
+uid: hugo.lefebvre@techsolutions.com
+mail: hugo.lefebvre@techsolutions.com
+title: DevOps
+description: Groupe principal: devops
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=isabelle.fontaine@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Isabelle Fontaine
+sn: Fontaine
+givenName: Isabelle
+displayName: Isabelle Fontaine
+uid: isabelle.fontaine@techsolutions.com
+mail: isabelle.fontaine@techsolutions.com
+title: Responsable Marketing
+description: Groupe principal: marketing
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v
+
+dn: uid=julien.gaillard@techsolutions.com,ou=users,dc=techsolutions,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Julien Gaillard
+sn: Gaillard
+givenName: Julien
+displayName: Julien Gaillard
+uid: julien.gaillard@techsolutions.com
+mail: julien.gaillard@techsolutions.com
+title: Support Technique
+description: Groupe principal: support
+userPassword: {SSHA}xj35+h+ihRlJi/5cOXn+3h41EgNdwh2v

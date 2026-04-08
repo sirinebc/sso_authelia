@@ -1,0 +1,59 @@
+dn: cn=frontend,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: frontend
+member: uid=alice.dupont@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=backend,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: backend
+member: uid=bob.martin@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=managers,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: managers
+member: uid=claire.leroy@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=sysadmin,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: sysadmin
+member: uid=david.moreau@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=qa,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: qa
+member: uid=eva.bernard@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=security,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: security
+member: uid=francois.petit@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=designer,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: designer
+member: uid=gabrielle.rousseau@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=devops,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: devops
+member: uid=hugo.lefebvre@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=marketing,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: marketing
+member: uid=isabelle.fontaine@techsolutions.com,ou=users,dc=techsolutions,dc=com
+
+dn: cn=support,ou=groups,dc=techsolutions,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: support
+member: uid=julien.gaillard@techsolutions.com,ou=users,dc=techsolutions,dc=com

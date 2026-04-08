@@ -1,0 +1,11 @@
+dn: ou=users,dc=techsolutions,dc=com
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=techsolutions,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=service-accounts,dc=techsolutions,dc=com
+objectClass: organizationalUnit
+ou: service-accounts

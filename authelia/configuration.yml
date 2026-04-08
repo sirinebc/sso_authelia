@@ -438,7 +438,28 @@ authentication_backend:
   ## This is the recommended Authentication Provider in production
   ## because it allows Authelia to offload the stateful operations
   ## onto the LDAP service.
-  # ldap:
+  ldap:
+    address: 'ldap://openldap:389'
+    implementation: 'custom'
+    timeout: '5 seconds'
+    start_tls: false
+
+    base_dn: 'dc=techsolutions,dc=com'
+    additional_users_dn: 'ou=users'
+    users_filter: '(&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=inetOrgPerson))'
+
+    additional_groups_dn: 'ou=groups'
+    groups_filter: '(&(member={dn})(objectClass=groupOfNames))'
+    group_search_mode: 'filter'
+    user: 'cn=authelia,ou=service-accounts,dc=techsolutions,dc=com'
+    password: 'AutheliaBind2026!'
+
+    attributes:
+      username: 'uid'
+      display_name: 'displayName'
+      mail: 'mail'
+      group_name: 'cn'
+
     ## The address of the directory server to connect to in the address common syntax.
     ## Format: [<scheme>://]<hostname>[:<port>].
     ## Square brackets indicate optional portions of the format. Scheme must be 'ldap', 'ldaps', or 'ldapi`.
@@ -606,8 +627,6 @@ authentication_backend:
   ##
   ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
   ##
-  file:
-    path: '/config/users_database.yml'
     # watch: false
     # search:
       # email: false
