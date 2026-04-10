@@ -26,6 +26,47 @@ services:
     networks: 
       - net
       
+      
+  nextcloud:
+    image: nextcloud:apache
+    depends_on:
+      - authelia
+    environment:
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.test.local
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
+      - OVERWRITEHOST=nextcloud.test.local
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITECLIURL=https://nextcloud.test.local
+      - TRUSTED_PROXIES=172.16.0.0/12
+    volumes:
+      - nextcloud_data:/var/www/html
+      - ./certs/rootCA.pem:/usr/local/share/ca-certificates/rootCA.crt:ro
+      - ./nextcloud/entrypoint-hooks:/docker-entrypoint-hooks.d/before-starting:ro
+      - ./secrets:/run/secrets:ro
+    networks:
+      - net
+      
+  jira:
+    build:
+      context: .
+      dockerfile: jira/Dockerfile
+    depends_on:
+      - authelia
+    environment:
+      - ATL_PROXY_NAME=jira.test.local
+      - ATL_PROXY_PORT=443
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_TOMCAT_SECURE=true
+      - JVM_MINIMUM_MEMORY=1024m
+      - JVM_MAXIMUM_MEMORY=2048m
+    volumes:
+      - ./jira/data:/var/atlassian/application-data/jira
+      - ./secrets:/run/secrets:ro
+    networks:
+      - net
+
+      
   gitlab:
     image : gitlab/gitlab-ce
     secrets:

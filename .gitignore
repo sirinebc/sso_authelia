@@ -16,6 +16,13 @@ gitlab/ssh_host_rsa_key.pub
 gitlab/initial_root_password
 gitlab/trusted-certs/
 
+
+# données runtime Nextcloud
+nextcloud/html/
+
+# données runtime Jira
+jira/data/
+
 # secrets
 *.env
 .env*
