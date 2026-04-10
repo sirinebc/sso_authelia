@@ -1455,6 +1455,43 @@ identity_providers:
     ## It's recommended you read the documentation before configuration of a registered client.
     ## See: https://www.authelia.com/c/oidc/registered-clients
     clients:
+        
+      - 
+        client_id: 'confluence'
+        client_name: 'Confluence'
+        client_secret: '$pbkdf2-sha512$310000$wvnPH.IvTWhCvs1AUeQwRg$nqwUUhmYkiWCozTcMx5vdIhbL5POEciiAjR0U1Gj.VmTR40S5deTpEQqz9w6q//SBoPudXK6v4.aD6AY4Gmdvw'
+        authorization_policy: 'one_factor'
+        redirect_uris:
+          - 'https://confluence.test.local/plugins/servlet/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+          
+      -   
+        client_id: 'rocketchat'
+        client_name: 'Rocket.Chat'
+        client_secret: '$pbkdf2-sha512$310000$UOJiZR0nW01PVOgXd3MFEw$uUrLFFqQQfdsDL7xZfX0qNVjMSWSoTHcy5KBzIGwD0Ow3ioADnrrHTCz34sBbW49qS8JacK.Ukq/TY/Ao9UX4w'
+        authorization_policy: 'one_factor'
+        public: false
+        require_pkce: false
+        pkce_challenge_method: ''
+        redirect_uris:
+          - 'https://rocket.test.local/_oauth/authelia'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
       -
         client_id: 'nextcloud'
         client_secret: '$pbkdf2-sha512$310000$60c0/dtuTSgS7Ve1wBXTNA$bvIWVOL3DBPFvo6NVoofnnSvIcx2niJSi1w4q3H4tcsuewNGS09VMEMhJBqUh99reZyjkc6E9tym/Xpw43i0gQ'

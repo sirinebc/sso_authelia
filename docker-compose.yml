@@ -26,6 +26,61 @@ services:
     networks: 
       - net
       
+  confluence:
+    build:
+      context: . 
+      dockerfile: confluence/Dockerfile
+    depends_on:
+      - postgres-confluence
+    environment:
+      ATL_PROXY_NAME: confluence.test.local
+      ATL_PROXY_PORT: 443
+      ATL_TOMCAT_SCHEME: https
+      ATL_TOMCAT_SECURE: "true"
+      JVM_MINIMUM_MEMORY: 1024m
+      JVM_MAXIMUM_MEMORY: 2048m
+    volumes:
+      - confluence_data:/var/atlassian/application-data/confluence
+    networks:
+      - net 
+  postgres-confluence:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=confluence
+      - POSTGRES_USER=confluence
+      - POSTGRES_PASSWORD=confluencepassword
+    volumes:
+      - confluence_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+      
+  mongodb:
+    image: mongo:8
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - net
+      
+  rocketchat:
+    build:
+      context: .
+      dockerfile: rocketchat/Dockerfile
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/rocketchat?replicaSet=rs0
+      ROOT_URL: https://rocket.test.local
+      PORT: 3000
+      NODE_EXTRA_CA_CERTS: /usr/local/share/ca-certificates/rootCA.crt
+    secrets:
+      - rocketchat_oidc_secret
+    depends_on:
+      - mongodb
+    networks:
+      - net
+      
       
   nextcloud:
     image: nextcloud:apache
