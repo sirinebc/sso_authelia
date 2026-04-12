@@ -1,40 +1,54 @@
 #!/bin/sh
-set -eu
+set -e
 
-run_occ() {
-  if [ "$(id -u)" = "0" ]; then
-    su -s /bin/sh www-data -c "php occ $*"
-  else
-    sh -c "php occ $*"
-  fi
-}
+# Ce script configure l'app user_oidc Nextcloud avec Authelia si Nextcloud est installé.
+# Il est idempotent (ne s'exécute qu'une seule fois via le drapeau de lock /tmp).
 
-echo "==> Trusting local root CA for Authelia"
-update-ca-certificates >/dev/null 2>&1 || true
-
-if ! run_occ 'status >/dev/null 2>&1'; then
-  echo "==> Nextcloud not installed yet, skipping OIDC bootstrap"
+NEXTCLOUD_LOCK_FILE="/tmp/nextcloud_oidc_configured"
+if [ -f "$NEXTCLOUD_LOCK_FILE" ]; then
+  echo "Nextcloud OIDC déjà configuré"
   exit 0
 fi
 
-echo "==> Ensuring Nextcloud OIDC app is installed"
-run_occ 'app:install user_oidc >/dev/null 2>&1 || true'
-run_occ 'app:enable user_oidc >/dev/null 2>&1 || true'
+# Vérifie que Nextcloud est bien installé
+if [ ! -f "/var/www/html/config/config.php" ]; then
+  echo "Nextcloud non installé, configuration OIDC différée"
+  exit 0
+fi
 
-echo "==> Configuring Authelia as OIDC provider"
-run_occ 'user_oidc:provider authelia \
-  --clientid=nextcloud \
-  --clientsecret-file=/run/secrets/nextcloud_oidc_secret \
-  --discoveryuri=https://auth.test.local/.well-known/openid-configuration \
+run_occ() {
+  if [ "$(id -u)" -eq 0 ]; then
+    runuser -u www-data -- php /var/www/html/occ --no-interaction "$@"
+  else
+    php /var/www/html/occ --no-interaction "$@"
+  fi
+}
+
+if ! run_occ app:install user_oidc; then
+  run_occ app:enable user_oidc
+fi
+
+# Client OIDC Authelia
+if [ ! -f "/run/secrets/nextcloud_oidc_secret" ]; then
+  echo "Secret nextcloud_oidc_secret introuvable"
+  exit 1
+fi
+
+run_occ user_oidc:provider authelia \
+  --clientid="nextcloud" \
+  --clientsecret-file="/run/secrets/nextcloud_oidc_secret" \
+  --discoveryuri="https://auth.test.local/.well-known/openid-configuration" \
   --scope="openid profile email groups" \
-  --mapping-uid=preferred_username \
-  --mapping-display-name=name \
-  --mapping-email=email \
-  --mapping-groups=groups \
-  --group-provisioning=1 >/dev/null 2>&1 || true'
+  --mapping-uid="preferred_username" \
+  --mapping-display-name="name" \
+  --mapping-email="email" \
+  --mapping-groups="groups" \
+  --group-provisioning=1
 
-run_occ 'config:app:set --type=integer --value=0 user_oidc allow_multiple_user_backends >/dev/null 2>&1 || true'
-run_occ 'config:system:set --type=bool --value=true allow_local_remote_servers >/dev/null 2>&1 || true'
-run_occ 'config:system:set --type=bool --value=true hide_login_form >/dev/null 2>&1 || true'
+run_occ config:system:set allow_local_remote_servers --type=bool --value=true
+run_occ config:app:set --type=integer --value=0 user_oidc allow_multiple_user_backends
 
-echo "==> Nextcloud OIDC bootstrap completed"
+# Marque la configuration comme effectuée
+touch "$NEXTCLOUD_LOCK_FILE"
+
+echo "Nextcloud OIDC configuré avec succès"
