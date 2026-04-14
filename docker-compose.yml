@@ -80,12 +80,31 @@ services:
       - mongodb
     networks:
       - net
-      
-      
+
+
+  jira-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=jiradb
+      - POSTGRES_USER=jira
+      - POSTGRES_PASSWORD=jira
+    volumes:
+      - jira_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jira -d jiradb"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - net
+
   nextcloud:
     image: nextcloud:apache
     depends_on:
       - authelia
+    entrypoint:
+      - /bin/sh
+      - /usr/local/bin/custom-entrypoint.sh
     environment:
       - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.test.local
       - NEXTCLOUD_ADMIN_USER=admin
@@ -96,31 +115,46 @@ services:
       - TRUSTED_PROXIES=172.16.0.0/12
     volumes:
       - nextcloud_data:/var/www/html
+      - ./nextcloud/docker-entrypoint.sh:/usr/local/bin/custom-entrypoint.sh:ro
       - ./certs/rootCA.pem:/usr/local/share/ca-certificates/rootCA.crt:ro
       - ./nextcloud/entrypoint-hooks:/docker-entrypoint-hooks.d/before-starting:ro
       - ./secrets:/run/secrets:ro
     networks:
       - net
-      
+
   jira:
     build:
       context: .
       dockerfile: jira/Dockerfile
     depends_on:
-      - authelia
+      authelia:
+        condition: service_started
+      jira-db:
+        condition: service_healthy
     environment:
       - ATL_PROXY_NAME=jira.test.local
       - ATL_PROXY_PORT=443
       - ATL_TOMCAT_SCHEME=https
       - ATL_TOMCAT_SECURE=true
+      - ATL_JDBC_URL=jdbc:postgresql://jira-db:5432/jiradb
+      - ATL_JDBC_USER=jira
+      - ATL_JDBC_PASSWORD=jira
       - JVM_MINIMUM_MEMORY=1024m
       - JVM_MAXIMUM_MEMORY=2048m
+    command:
+      - /bin/bash
+      - -lc
+      - |
+        if [ -f /var/atlassian/application-data/jira/dbconfig.xml ] && grep -q '<url></url>' /var/atlassian/application-data/jira/dbconfig.xml; then
+          echo "Removing invalid dbconfig.xml to let Jira bootstrap from ATL_JDBC_*";
+          rm -f /var/atlassian/application-data/jira/dbconfig.xml;
+        fi;
+        exec /entrypoint.py
     volumes:
       - ./jira/data:/var/atlassian/application-data/jira
       - ./secrets:/run/secrets:ro
     networks:
       - net
-
       
   gitlab:
     image : gitlab/gitlab-ce
@@ -128,7 +162,6 @@ services:
       - source: gitlab_oidc_secret
     volumes:
       - ./gitlab:/etc/gitlab
-      # sert à accéder à auth.test.local en HTTPS
       - ./certs/rootCA.pem:/etc/gitlab/trusted-certs/rootCA.pem
     networks: 
       - net
@@ -153,9 +186,15 @@ networks:
   net:
 volumes:
   nextcloud_data:
+      external: true
+  jira_db_data:
+      external: true
   mongo_data:
+      external: true
   confluence_data:
+      external: true
   confluence_pg_data:
+      external: true
 secrets:
   authelia_oidc_key:
     file: ./secrets/authelia_oidc_key

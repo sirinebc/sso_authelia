@@ -38,7 +38,13 @@ authelia_hmac_secret ="this_is_a_secret_abc123abc123abc"
 authelia_oidc_key => openssl genrsa -out authelia_oidc_key 2048
 ```
 
-5)	Lancer docker compose up au même niveau du fichier docker-compose.yml
-
-
-
+5) Créer les volumes et y mettre le contenu des archives
+```
+jira_db_data
+nextcloud_data
+mongo_data
+confluence_data
+confluence_pg_data
+```
+ 
+6)	Lancer docker compose up au même niveau du fichier docker-compose.yml
